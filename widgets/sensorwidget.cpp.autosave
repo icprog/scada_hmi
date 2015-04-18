@@ -1,0 +1,13 @@
+#include "sensorwidget.h"
+
+SensorWidget::SensorWidget(QObject* parent) : ScadaDeviceWidget(parent)
+{
+    plot = new QCustomPlot(this);
+    
+}
+
+SensorWidget::~SensorWidget()
+{
+
+}
+
