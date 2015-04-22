@@ -2,11 +2,96 @@
 
 HMI_Client::HMI_Client()
 {
-
+    this->hmi = new HumanMachineInterface();
+    this->deviceList = new QList<DeviceInterface*>;
+    this->socket = new QTcpSocket(this);
 }
 
 HMI_Client::~HMI_Client()
 {
-
+    delete hmi;
+    delete deviceList;
 }
 
+bool HMI_Client::connectToServer(QString hostName, int portNumber)
+{
+    socket->connectToHost(hostName, portNumber);
+    connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected()));
+    connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    connect(this->socket, SIGNAL(readyRead()), this, SLOT(onDataReceived()));
+    
+    if(!socket->waitForConnected())
+    {
+        emit connectionFailed();
+        return false;
+    }
+    emit connectedToServer();
+    return true;
+}
+
+bool HMI_Client::disconnect()
+{
+    socket->disconnectFromHost();
+    return true;
+}
+
+void HMI_Client::onConnected()
+{
+    socket->write(hmi->getInitPacket().encode());
+}
+
+void HMI_Client::onDisconnected()
+{
+    emit disconnectedFromServer();
+}
+
+void HMI_Client::onDataReceived()
+{
+    QByteArray rxData = socket->readAll();
+    Packet packet;
+    QList<Packet> packetList;
+    while(packet.decode(&rxData)) //there can be more packets which came together
+    {
+        packetList.append(packet); //we will separate them and put into list
+    }
+    foreach(Packet packet, packetList)
+    {
+        if(packet.getPacketType()==Packet::SENSOR_INIT ||   //if piece of device list received
+                packet.getPacketType()==Packet::REGULATOR_INIT)
+        {
+            //TODO: avoid adding the same dev twice
+            DeviceInterface* device;
+            if(packet.getPacketType()==Packet::SENSOR_INIT)
+                device = new SensorInterface();
+//            else device = new RegulatorInterface()
+            deviceList->append(device);
+            ScadaDevice* scadaDev = dynamic_cast<ScadaDevice*>(device);
+            scadaDev->initReceived(&packet);
+            emit deviceListChanged(device);
+
+        }
+        
+        if(packet.getPacketType()==Packet::DATA)
+        {
+//            hmi->dataReceived(&packet);
+            ScadaDevice* dev = findDevice(packet.getDeviceID());
+            if(dev)
+            {
+                dev->dataReceived(&packet);
+            }
+        }
+    }
+}
+
+ScadaDevice* HMI_Client::findDevice(int uuid)
+{
+    for(int i = 0; i<deviceList->size(); i++)
+    {
+        ScadaDevice *device = dynamic_cast<ScadaDevice*>(deviceList->at(i));
+        if(device->getUUID()==uuid)
+        {
+            return device;
+        }
+    }
+    return NULL;
+}

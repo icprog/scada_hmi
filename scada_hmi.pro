@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,12 +17,24 @@ SOURCES += main.cpp\
     hmi_client.cpp \
     widgets/qcustomplot.cpp \
     widgets/scadadevicewidget.cpp \
-    widgets/sensorwidget.cpp
+    widgets/sensorwidget.cpp \
+    common/humanmachineinterface.cpp \
+    common/packet.cpp \
+    common/scadadevice.cpp \
+    common/sensor.cpp \
+    deviceinterface.cpp \
+    sensorinterface.cpp
 
 HEADERS  += connectwindow.h \
     hmi_client.h \
     widgets/qcustomplot.h \
     widgets/scadadevicewidget.h \
-    widgets/sensorwidget.h
+    widgets/sensorwidget.h \
+    common/humanmachineinterface.h \
+    common/packet.h \
+    common/scadadevice.h \
+    common/sensor.h \
+    deviceinterface.h \
+    sensorinterface.h
 
 FORMS    += connectwindow.ui

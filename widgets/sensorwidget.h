@@ -1,15 +1,24 @@
 #ifndef SENSORWIDGET_H
 #define SENSORWIDGET_H
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "widgets/scadadevicewidget.h"
-#include "qcustomplot.h"
+#include "widgets/qcustomplot.h"
 
-class SensorWidget : public ScadaDeviceWigdet
+class SensorWidget : public ScadaDeviceWidget
 {
     Q_OBJECT
 public:
-    SensorWidget(QObject* parent);
+    SensorWidget(QWidget *parent);
     ~SensorWidget();
+private:
     QCustomPlot *plot;
+
+    QVBoxLayout* panelLayout;
+    QHBoxLayout* mainLayout;
+
+public slots:
+    void onPowerButtonClicked();
 
 };
 
