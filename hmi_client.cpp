@@ -13,20 +13,11 @@ HMI_Client::~HMI_Client()
     delete deviceList;
 }
 
-bool HMI_Client::connectToServer(QString hostName, int portNumber)
+void HMI_Client::connectToServer(QString hostName, int portNumber)
 {
     socket->connectToHost(hostName, portNumber);
     connect(this->socket, SIGNAL(connected()), this, SLOT(onConnected()));
-    connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-    connect(this->socket, SIGNAL(readyRead()), this, SLOT(onDataReceived()));
-    
-    if(!socket->waitForConnected())
-    {
-        emit connectionFailed();
-        return false;
-    }
-    emit connectedToServer();
-    return true;
+    connect(this->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
 }
 
 bool HMI_Client::disconnect()
@@ -37,7 +28,15 @@ bool HMI_Client::disconnect()
 
 void HMI_Client::onConnected()
 {
+    connect(this->socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    connect(this->socket, SIGNAL(readyRead()), this, SLOT(onDataReceived()));
+    emit connectedToServer();
     socket->write(hmi->getInitPacket().encode());
+}
+
+void HMI_Client::onSocketError(QAbstractSocket::SocketError error)
+{
+    emit connectionFailed(error);
 }
 
 void HMI_Client::onDisconnected()

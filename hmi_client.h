@@ -14,7 +14,7 @@ class HMI_Client : public QObject
 public:
     HMI_Client();
     ~HMI_Client();
-    bool connectToServer(QString hostName, int portNumber);
+    void connectToServer(QString hostName, int portNumber);
     bool disconnect();
 
     QList<DeviceInterface*>* getDeviceList();
@@ -33,9 +33,10 @@ public slots:
 
 private slots:
     void onDataReceived();
+    void onSocketError(QAbstractSocket::SocketError error);
 signals:
     void deviceListChanged(DeviceInterface* device); //for UI to handle new devices
-    void connectionFailed();
+    void connectionFailed(QAbstractSocket::SocketError error);
     void connectedToServer();
     void disconnectedFromServer();
 

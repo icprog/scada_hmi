@@ -13,7 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        connectwindow.cpp \
     hmi_client.cpp \
     widgets/qcustomplot.cpp \
     widgets/scadadevicewidget.cpp \
@@ -23,9 +22,10 @@ SOURCES += main.cpp\
     common/scadadevice.cpp \
     common/sensor.cpp \
     deviceinterface.cpp \
-    sensorinterface.cpp
+    sensorinterface.cpp \
+    mainwindow.cpp
 
-HEADERS  += connectwindow.h \
+HEADERS  += \
     hmi_client.h \
     widgets/qcustomplot.h \
     widgets/scadadevicewidget.h \
@@ -35,6 +35,8 @@ HEADERS  += connectwindow.h \
     common/scadadevice.h \
     common/sensor.h \
     deviceinterface.h \
-    sensorinterface.h
+    sensorinterface.h \
+    mainwindow.h
 
-FORMS    += connectwindow.ui
+FORMS    += \
+    mainwindow.ui
