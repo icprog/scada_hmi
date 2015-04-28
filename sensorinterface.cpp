@@ -25,6 +25,11 @@ int SensorInterface::getDeviceState()
     return (int)deviceState;
 }
 
+int SensorInterface::getUUID()
+{
+    return uuid;
+}
+
 QString SensorInterface::getMeasurandName()
 {
     return measurandName;

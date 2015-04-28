@@ -14,6 +14,7 @@ public:
     QString getDeviceName();
     QString getDeviceBrief();
     int getDeviceState();
+    int getUUID();
     QString getMeasurandName();
     QString getMeasurandUnit();
     double getRangeMax();

@@ -20,6 +20,7 @@ public:
     QList<DeviceInterface*>* getDeviceList();
 
     ScadaDevice* findDevice(int uuid);
+    void appendToWishList(ScadaDevice* device);
 
 private:
     QTcpSocket *socket;

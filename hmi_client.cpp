@@ -82,6 +82,11 @@ void HMI_Client::onDataReceived()
     }
 }
 
+QList<DeviceInterface*>* HMI_Client::getDeviceList()
+{
+    return deviceList;
+}
+
 ScadaDevice* HMI_Client::findDevice(int uuid)
 {
     for(int i = 0; i<deviceList->size(); i++)
@@ -93,4 +98,9 @@ ScadaDevice* HMI_Client::findDevice(int uuid)
         }
     }
     return NULL;
+}
+
+void HMI_Client::appendToWishList(ScadaDevice* device)
+{
+    this->hmi->appendToWishlist(device);
 }

@@ -23,6 +23,9 @@
       <height>551</height>
      </rect>
     </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
     <widget class="QWidget" name="pageConnect">
      <widget class="QWidget" name="formLayoutWidget">
       <property name="geometry">
@@ -78,7 +81,43 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="pageDevList"/>
+    <widget class="QWidget" name="pageDevList">
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>70</y>
+        <width>271</width>
+        <height>351</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Lista urządzeń podłączonych do serwera:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="deviceListWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="startHMI_Button">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>440</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Uruchom HMI</string>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="pageDisplay"/>
    </widget>
   </widget>

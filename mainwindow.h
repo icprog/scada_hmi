@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
 #include "hmi_client.h"
 
 namespace Ui {
@@ -21,8 +22,11 @@ private:
     HMI_Client* hmi;
 private slots:
     void onConnectClicked();
+    void onStartHMI_Clicked();
     void onServerConnected();
-    void onServerConnectionFailed();
+    void onServerConnectionFailed(QAbstractSocket::SocketError error);
+    void onServerDisconnected();
+    void onDeviceListChange(DeviceInterface*dev);
 
 };
 
