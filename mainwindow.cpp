@@ -41,12 +41,9 @@ void MainWindow::onStartHMI_Clicked()
     foreach(QModelIndex index, indexes)
     {
         ScadaDevice *device = dynamic_cast<ScadaDevice*>(hmi->getDeviceList()->at(index.row()));
-//        indexList.push_back(index.row());
         hmi->appendToWishList(device);
-
     }
-
-
+    hmi->sendWishlist();
 }
 
 void MainWindow::onServerConnected()
@@ -70,7 +67,7 @@ void MainWindow::onServerDisconnected()
 }
 void MainWindow::onDeviceListChange(DeviceInterface* dev)
 {
-    QString text = dev->getDeviceName() + ": " +dev->getDeviceBrief() + "(" + dev->getUUID() + ")";
+    QString text = dev->getDeviceName() + ": " +dev->getDeviceBrief() + "(" + QString::number(dev->getUUID()) + ")";
     QListWidgetItem* item = new QListWidgetItem(text);
     ui->deviceListWidget->addItem(item);
 }

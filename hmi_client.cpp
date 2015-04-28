@@ -104,3 +104,8 @@ void HMI_Client::appendToWishList(ScadaDevice* device)
 {
     this->hmi->appendToWishlist(device);
 }
+
+void HMI_Client::sendWishlist()
+{
+    socket->write(hmi->getSettingsPacket().encode());
+}

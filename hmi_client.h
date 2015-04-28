@@ -21,6 +21,7 @@ public:
 
     ScadaDevice* findDevice(int uuid);
     void appendToWishList(ScadaDevice* device);
+    void sendWishlist();
 
 private:
     QTcpSocket *socket;
