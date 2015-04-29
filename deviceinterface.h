@@ -13,6 +13,9 @@ public:
     virtual QString getDeviceBrief() = 0;
     virtual int getDeviceState() = 0;
     virtual int getUUID() = 0;
+
+signals:
+    void dataUpdate();
 };
 
 #endif // DEVICEINTERFACE_H

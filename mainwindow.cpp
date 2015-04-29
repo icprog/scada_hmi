@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent, HMI_Client* hmi)  :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    this->setFixedSize(240,240);
     this->hmi = hmi;
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
@@ -44,11 +45,15 @@ void MainWindow::onStartHMI_Clicked()
         hmi->appendToWishList(device);
     }
     hmi->sendWishlist();
+
+    ui->stackedWidget->setCurrentIndex(2);
+
 }
 
 void MainWindow::onServerConnected()
 {
     ui->stackedWidget->setCurrentIndex(1);
+    this->setFixedSize(350,550);
 
 }
 void MainWindow::onServerConnectionFailed(QAbstractSocket::SocketError error)

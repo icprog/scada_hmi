@@ -5,12 +5,14 @@
 #include <QPushButton>
 #include <QLabel>
 #include "common/scadadevice.h"
+#include "deviceinterface.h"
 
 class ScadaDeviceWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit ScadaDeviceWidget(QWidget *parent = 0/*, ScadaDeviceInterface *device = 0*/);
+    ScadaDeviceWidget(QWidget *parent, DeviceInterface *device);
     ~ScadaDeviceWidget();
 
 protected:
@@ -20,11 +22,12 @@ protected:
     QPushButton* powerSwitchButton;
     QPushButton* sendButton;
 
-//    ScadaDeviceInterface* device;
+    DeviceInterface* device;
 
 signals:
 
 public slots:
+    virtual void onRealTimeDataUpdate() = 0;
 };
 
 #endif // SCADADEVICEWIDGET_H

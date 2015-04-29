@@ -49,3 +49,14 @@ double SensorInterface::getRangeMin()
 {
     return rangeMin;
 }
+
+ double SensorInterface::getCurrentValue()
+ {
+     return currentValue;
+ }
+
+bool SensorInterface::dataReceived(Packet* data)
+{
+    Sensor::dataReceived(data);
+    emit dataUpdate();
+}

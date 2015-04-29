@@ -2,6 +2,7 @@
 #define SENSORINTERFACE_H
 
 #include "common/sensor.h"
+#include "common/packet.h"
 #include "deviceinterface.h"
 
 
@@ -19,6 +20,11 @@ public:
     QString getMeasurandUnit();
     double getRangeMax();
     double getRangeMin();
+
+    double getCurrentValue();
+
+    bool dataReceived(Packet* data);
+
 };
 
 #endif // SENSORINTERFACE_H

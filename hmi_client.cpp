@@ -61,12 +61,21 @@ void HMI_Client::onDataReceived()
             //TODO: avoid adding the same dev twice
             DeviceInterface* device;
             if(packet.getPacketType()==Packet::SENSOR_INIT)
+            {
                 device = new SensorInterface();
+                ScadaDevice* scadaDev = dynamic_cast<ScadaDevice*>(device);
+                if(scadaDev->initReceived(&packet))
+                {
+                    deviceList->append(device);
+                    emit deviceListChanged(device);
+                }
+                else delete device;
+            }
 //            else device = new RegulatorInterface()
-            deviceList->append(device);
-            ScadaDevice* scadaDev = dynamic_cast<ScadaDevice*>(device);
-            scadaDev->initReceived(&packet);
-            emit deviceListChanged(device);
+
+
+
+
 
         }
         
