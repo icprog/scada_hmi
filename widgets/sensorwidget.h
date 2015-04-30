@@ -13,6 +13,7 @@ public:
     SensorWidget(QWidget *parent, SensorInterface* sensor);
     ~SensorWidget();
 private:
+    SensorInterface* device;
     QCustomPlot *plot;
     QLabel* currentValueIndicator;
 

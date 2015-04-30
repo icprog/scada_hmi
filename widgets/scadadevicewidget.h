@@ -12,7 +12,7 @@ class ScadaDeviceWidget : public QWidget
     Q_OBJECT
 public:
     explicit ScadaDeviceWidget(QWidget *parent = 0/*, ScadaDeviceInterface *device = 0*/);
-    ScadaDeviceWidget(QWidget *parent, DeviceInterface *device);
+//    ScadaDeviceWidget(QWidget *parent);
     ~ScadaDeviceWidget();
 
 protected:
@@ -22,7 +22,7 @@ protected:
     QPushButton* powerSwitchButton;
     QPushButton* sendButton;
 
-    DeviceInterface* device;
+//    DeviceInterface* device;
 
 signals:
 

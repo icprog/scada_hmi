@@ -12,18 +12,7 @@ ScadaDeviceWidget::ScadaDeviceWidget(QWidget *parent) : QWidget(parent)
 
 //    this->device = device;
 }
-ScadaDeviceWidget::ScadaDeviceWidget(QWidget *parent, DeviceInterface *device) : QWidget(parent)
-{
-    nameLabel = new QLabel("name", this);
-    QFont f( "Arial", 15, QFont::Bold);
-    nameLabel->setFont(f);
-    briefLabel = new QLabel("brief", this);
 
-    powerSwitchButton = new QPushButton("On/Off", this);
-    sendButton = new QPushButton("Send", this);
-    this->device = device;
-    connect(this->device, SIGNAL(dataUpdate()), this, SLOT(onRealTimeDataUpdate()));
-}
 
 ScadaDeviceWidget::~ScadaDeviceWidget()
 {

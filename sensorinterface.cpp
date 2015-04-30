@@ -1,6 +1,6 @@
 #include "sensorinterface.h"
 
-SensorInterface::SensorInterface()
+SensorInterface::SensorInterface(QObject *parent) : QObject(parent)
 {
 
 }

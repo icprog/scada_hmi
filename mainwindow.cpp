@@ -43,10 +43,20 @@ void MainWindow::onStartHMI_Clicked()
     {
         ScadaDevice *device = dynamic_cast<ScadaDevice*>(hmi->getDeviceList()->at(index.row()));
         hmi->appendToWishList(device);
+        SensorInterface* sensor = dynamic_cast<SensorInterface*>(hmi->getDeviceList()->at(index.row()));
+        if(sensor)
+        {
+            SensorWidget* widget = new SensorWidget(0, sensor);
+            ui->gridLayout->addWidget(widget);
+        }
+        this->setFixedSize(1400,600);
+//        if(something else)
+            
     }
     hmi->sendWishlist();
 
     ui->stackedWidget->setCurrentIndex(2);
+   
 
 }
 

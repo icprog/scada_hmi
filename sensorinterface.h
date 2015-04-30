@@ -4,13 +4,14 @@
 #include "common/sensor.h"
 #include "common/packet.h"
 #include "deviceinterface.h"
+#include <QObject>
 
-
-class SensorInterface : public Sensor, public DeviceInterface
+class SensorInterface : public QObject, public Sensor, public DeviceInterface
 {
+    Q_OBJECT
     
 public:
-    SensorInterface();
+    SensorInterface(QObject *parent =0);
     ~SensorInterface();
     QString getDeviceName();
     QString getDeviceBrief();
@@ -24,6 +25,8 @@ public:
     double getCurrentValue();
 
     bool dataReceived(Packet* data);
+signals:
+    void dataUpdate();
 
 };
 

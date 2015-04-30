@@ -1,9 +1,10 @@
 #ifndef DEVICEINTERFACE_H
 #define DEVICEINTERFACE_H
 #include <QString>
-
+#include <QObject>
 class DeviceInterface
 {
+
 public:
     DeviceInterface();
     ~DeviceInterface();
@@ -14,8 +15,7 @@ public:
     virtual int getDeviceState() = 0;
     virtual int getUUID() = 0;
 
-signals:
-    void dataUpdate();
+
 };
 
 #endif // DEVICEINTERFACE_H

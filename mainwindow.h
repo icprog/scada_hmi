@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include "hmi_client.h"
+#include "widgets/sensorwidget.h"
 
 namespace Ui {
 class MainWindow;
