@@ -16,6 +16,7 @@ private:
     SensorInterface* device;
     QCustomPlot *plot;
     QLabel* currentValueIndicator;
+    QLabel* rangeBrief;
 
     QVBoxLayout* panelLayout;
     QHBoxLayout* mainLayout;

@@ -39,6 +39,14 @@ void MainWindow::onConnectClicked()
 void MainWindow::onStartHMI_Clicked()
 {
     QModelIndexList indexes = ui->deviceListWidget->selectionModel()->selectedIndexes();
+    if(indexes.empty())
+    {
+        QMessageBox message;
+        message.setText("Plese choose at least one device to show.");
+        message.setWindowTitle("Error");
+        message.exec();
+        return;
+    }
     foreach(QModelIndex index, indexes)
     {
         ScadaDevice *device = dynamic_cast<ScadaDevice*>(hmi->getDeviceList()->at(index.row()));
@@ -48,8 +56,10 @@ void MainWindow::onStartHMI_Clicked()
         {
             SensorWidget* widget = new SensorWidget(0, sensor);
             ui->gridLayout->addWidget(widget);
+            this->setFixedSize(800,600);
         }
-        this->setFixedSize(1400,600);
+
+
 //        if(something else)
             
     }

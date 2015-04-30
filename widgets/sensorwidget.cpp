@@ -6,22 +6,33 @@ SensorWidget::SensorWidget(QWidget* parent, SensorInterface* sensor) : ScadaDevi
     panelLayout = new QVBoxLayout();
     mainLayout = new QHBoxLayout();
     currentValueIndicator = new QLabel();
+    rangeBrief = new QLabel();
     this->device = sensor;
     connect(this->device, SIGNAL(dataUpdate()), this, SLOT(onRealTimeDataUpdate()));
 
 
     panelLayout->addWidget(nameLabel);
     panelLayout->addWidget(briefLabel);
+    panelLayout->addWidget(rangeBrief);
     panelLayout->addWidget(currentValueIndicator);
     panelLayout->addStretch();
     panelLayout->addWidget(powerSwitchButton);
     this->sendButton->setVisible(false);
-    mainLayout->addLayout(panelLayout,1);
+    mainLayout->addLayout(panelLayout,2);
+    mainLayout->addStretch(1);
     mainLayout->addWidget(plot,5);
 
     delete this->layout();
     this->setLayout(mainLayout);
     plotSetup();
+    this->nameLabel->setText(device->getDeviceName());
+    this->briefLabel->setText(device->getDeviceBrief());
+    this->rangeBrief->setText("Measure range: " +
+                              QString::number(device->getRangeMin()) +
+                              " - " +
+                              QString::number(device->getRangeMax()) +
+                              " " +
+                              device->getMeasurandUnit());
 }
 
 SensorWidget::~SensorWidget()
@@ -39,7 +50,7 @@ void SensorWidget::onPowerButtonClicked()
 void SensorWidget::onRealTimeDataUpdate()
 {
     //plot data
-    this->currentValueIndicator->setText(QString::number(device->getCurrentValue()));
+    this->currentValueIndicator->setText(QString::number(device->getCurrentValue()) + " " + device->getMeasurandUnit());
     plotUpdate();
 }
 
@@ -50,6 +61,7 @@ void SensorWidget::plotSetup()
     plot->graph(0)->setBrush(QBrush(QColor(240, 255, 200)));
     plot->graph(0)->setAntialiasedFill(false);
 
+    plot->yAxis->setLabel(device->getMeasurandName() + "[" + device->getMeasurandUnit() + "]");
     plot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     plot->xAxis->setDateTimeFormat("hh:mm:ss");
     plot->xAxis->setAutoTickStep(false);
@@ -69,8 +81,8 @@ void SensorWidget::plotUpdate()
     if (key-lastPointKey > 0.01) // at most add point every 10 ms
     {
       // add data to lines:
-      double siurek = device->getCurrentValue();
-      plot->graph(0)->addData(key, siurek);
+      double data = device->getCurrentValue();
+      plot->graph(0)->addData(key, data);
 
       // remove data of lines that's outside visible range:
       plot->graph(0)->removeDataBefore(key-8);
@@ -84,19 +96,5 @@ void SensorWidget::plotUpdate()
     plot->xAxis->setRange(key+0.25, 8, Qt::AlignRight);
     plot->replot();
 
-//    // calculate frames per second:
-//    static double lastFpsKey;
-//    static int frameCount;
-//    ++frameCount;
-//    if (key-lastFpsKey > 2) // average fps over 2 seconds
-//    {
-//      ui->statusBar->showMessage(
-//            QString("%1 FPS, Total Data points: %2")
-//            .arg(frameCount/(key-lastFpsKey), 0, 'f', 0)
-//            .arg(ui->plot->graph(0)->data()->count()+ui->plot->graph(1)->data()->count())
-//            , 0);
-//      lastFpsKey = key;
-//      frameCount = 0;
-//    }
 
 }
