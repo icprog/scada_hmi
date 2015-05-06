@@ -25,7 +25,7 @@ protected:
 //    DeviceInterface* device;
 
 signals:
-
+    void powerSwitchClicked(DeviceInterface* device, bool state);
 public slots:
     virtual void onRealTimeDataUpdate() = 0;
 };

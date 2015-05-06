@@ -26,7 +26,10 @@ private:
 
 public slots:
     void onPowerButtonClicked();
+
     void onRealTimeDataUpdate();
+
+
 
 };
 

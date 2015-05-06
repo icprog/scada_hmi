@@ -118,3 +118,11 @@ void HMI_Client::sendWishlist()
 {
     socket->write(hmi->getSettingsPacket().encode());
 }
+
+void HMI_Client::switchDeviceState(DeviceInterface* device, bool state)
+{
+    device->setDeviceState(state);
+    ScadaDevice* dev = dynamic_cast<ScadaDevice*>(device);
+    QByteArray data = (dev->getSettingsPacket()).encode();
+    socket->write(data);
+}

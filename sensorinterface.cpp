@@ -60,3 +60,10 @@ bool SensorInterface::dataReceived(Packet* data)
     Sensor::dataReceived(data);
     emit dataUpdate();
 }
+
+void SensorInterface::setDeviceState(bool state)
+{
+    if(state)
+        this->deviceState = STATE_ON;
+    else this->deviceState = STATE_OFF;
+}

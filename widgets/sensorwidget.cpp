@@ -9,7 +9,7 @@ SensorWidget::SensorWidget(QWidget* parent, SensorInterface* sensor) : ScadaDevi
     rangeBrief = new QLabel();
     this->device = sensor;
     connect(this->device, SIGNAL(dataUpdate()), this, SLOT(onRealTimeDataUpdate()));
-
+    connect(this->powerSwitchButton, SIGNAL(clicked()), this, SLOT(onPowerButtonClicked()));
 
     panelLayout->addWidget(nameLabel);
     panelLayout->addWidget(briefLabel);
@@ -44,7 +44,10 @@ SensorWidget::~SensorWidget()
 
 void SensorWidget::onPowerButtonClicked()
 {
-
+    if(device->getDeviceState()==STATE_OFF)
+        emit powerSwitchClicked(device, true);
+    else
+        emit powerSwitchClicked(device, false);
 }
 
 void SensorWidget::onRealTimeDataUpdate()
@@ -98,3 +101,5 @@ void SensorWidget::plotUpdate()
 
 
 }
+
+

@@ -24,6 +24,7 @@ public:
 
     double getCurrentValue();
 
+    void setDeviceState(bool state);
     bool dataReceived(Packet* data);
 signals:
     void dataUpdate();

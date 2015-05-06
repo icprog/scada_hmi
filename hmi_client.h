@@ -21,6 +21,7 @@ public:
 
     ScadaDevice* findDevice(int uuid);
     void appendToWishList(ScadaDevice* device);
+
     void sendWishlist();
 
 private:
@@ -32,6 +33,7 @@ private:
 public slots:
     void onConnected();
     void onDisconnected();
+    void switchDeviceState(DeviceInterface *device, bool state);
 
 private slots:
     void onDataReceived();

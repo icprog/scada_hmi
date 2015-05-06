@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent, HMI_Client* hmi)  :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    this->setWindowTitle("uScada HMI");
     this->setFixedSize(240,240);
     this->hmi = hmi;
     ui->setupUi(this);
@@ -55,6 +56,7 @@ void MainWindow::onStartHMI_Clicked()
         if(sensor)
         {
             SensorWidget* widget = new SensorWidget(0, sensor);
+            connect(widget,SIGNAL(powerSwitchClicked(DeviceInterface*,bool)), hmi, SLOT(switchDeviceState(DeviceInterface*,bool)));
             ui->gridLayout->addWidget(widget);
             this->setFixedSize(800,600);
         }
