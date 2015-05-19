@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent, HMI_Client* hmi)  :
     ui(new Ui::MainWindow)
 {
     this->setWindowTitle("uScada HMI");
+
     this->setFixedSize(240,240);
     this->hmi = hmi;
     ui->setupUi(this);
