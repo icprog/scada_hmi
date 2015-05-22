@@ -16,7 +16,7 @@ public:
     bool settingsReceived(Packet *settings);
 
     bool appendToWishlist(ScadaDevice* device);
-
+    void clearWishlist();
 private:
     QString hmiBrief;
 

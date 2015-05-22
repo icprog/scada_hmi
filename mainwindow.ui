@@ -142,8 +142,20 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDisconnect">
+    <property name="title">
+     <string>Connection</string>
+    </property>
+    <addaction name="actionDisconnect"/>
+   </widget>
+   <addaction name="menuDisconnect"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionDisconnect">
+   <property name="text">
+    <string>Disconnect</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

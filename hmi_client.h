@@ -15,7 +15,7 @@ public:
     HMI_Client();
     ~HMI_Client();
     void connectToServer(QString hostName, int portNumber);
-    bool disconnect();
+    bool disconnectFromServer();
 
     QList<DeviceInterface*>* getDeviceList();
 
@@ -23,6 +23,7 @@ public:
     void appendToWishList(ScadaDevice* device);
 
     void sendWishlist();
+
 
 private:
     QTcpSocket *socket;

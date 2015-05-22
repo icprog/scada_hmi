@@ -29,6 +29,7 @@ private slots:
     void onServerDisconnected();
     void onDeviceListChange(DeviceInterface*dev);
 
+    void on_actionDisconnect_triggered();
 };
 
 #endif // MAINWINDOW_H

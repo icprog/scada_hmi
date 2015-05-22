@@ -9,7 +9,9 @@ MainWindow::MainWindow(QWidget *parent, HMI_Client* hmi)  :
 
     this->setFixedSize(240,240);
     this->hmi = hmi;
+
     ui->setupUi(this);
+    ui->menubar->setVisible(false);
     ui->stackedWidget->setCurrentIndex(0);
     connect(this->hmi, SIGNAL(connectedToServer()), this, SLOT(onServerConnected()));
     connect(this->hmi, SIGNAL(connectionFailed(QAbstractSocket::SocketError)), this, SLOT(onServerConnectionFailed(QAbstractSocket::SocketError)));
@@ -69,6 +71,7 @@ void MainWindow::onStartHMI_Clicked()
     hmi->sendWishlist();
 
     ui->stackedWidget->setCurrentIndex(2);
+    ui->menubar->setVisible(true);
    
 
 }
@@ -77,6 +80,7 @@ void MainWindow::onServerConnected()
 {
     ui->stackedWidget->setCurrentIndex(1);
     this->setFixedSize(350,550);
+
 
 }
 void MainWindow::onServerConnectionFailed(QAbstractSocket::SocketError error)
@@ -88,9 +92,22 @@ void MainWindow::onServerConnectionFailed(QAbstractSocket::SocketError error)
     message.setWindowTitle("Error");
     message.setText("Connection error. Check server.");
     message.exec();
+    this->setFixedSize(240,240);
+    ui->stackedWidget->setCurrentIndex(0);
+
 }
 void MainWindow::onServerDisconnected()
 {
+    this->setFixedSize(240,240);
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->deviceListWidget->clear();
+    QLayoutItem *child;
+    while ((child = ui->gridLayout->takeAt(0)) != 0)
+    {
+        delete child->widget();
+        delete child;
+    }
+
 
 }
 void MainWindow::onDeviceListChange(DeviceInterface* dev)
@@ -98,4 +115,15 @@ void MainWindow::onDeviceListChange(DeviceInterface* dev)
     QString text = dev->getDeviceName() + ": " +dev->getDeviceBrief() + "(" + QString::number(dev->getUUID()) + ")";
     QListWidgetItem* item = new QListWidgetItem(text);
     ui->deviceListWidget->addItem(item);
+}
+
+void MainWindow::on_actionDisconnect_triggered()
+{
+    hmi->disconnectFromServer();
+    this->setFixedSize(240,240);
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->connectButton->setEnabled(true);
+    ui->connectButton->setText("Connect");
+    ui->menubar->setVisible(false);
+
 }

@@ -114,7 +114,8 @@ bool Packet::decode(QByteArray *data)
             if(i>=splitData.size()) return false;
         }
     else return false;
-    data->remove(0,i);
+    int indx = data->indexOf('\n');
+    data->remove(0,indx+1);
     return true;
 }
 

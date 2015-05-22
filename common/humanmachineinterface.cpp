@@ -85,3 +85,8 @@ bool HumanMachineInterface::appendToWishlist(ScadaDevice* device)
     wishList.append(device->getUUID());
     return true;
 }
+
+void HumanMachineInterface::clearWishlist()
+{
+    wishList.clear();
+}

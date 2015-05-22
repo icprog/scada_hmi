@@ -20,7 +20,7 @@ void HMI_Client::connectToServer(QString hostName, int portNumber)
     connect(this->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
 }
 
-bool HMI_Client::disconnect()
+bool HMI_Client::disconnectFromServer()
 {
     socket->disconnectFromHost();
     return true;
@@ -41,6 +41,8 @@ void HMI_Client::onSocketError(QAbstractSocket::SocketError error)
 
 void HMI_Client::onDisconnected()
 {
+    deviceList->clear();
+    hmi->clearWishlist();
     emit disconnectedFromServer();
 }
 
@@ -49,9 +51,13 @@ void HMI_Client::onDataReceived()
     QByteArray rxData = socket->readAll();
     Packet packet;
     QList<Packet> packetList;
-    while(packet.decode(&rxData)) //there can be more packets which came together
+    bool packetsLeft = true;
+    while(packetsLeft) //there can be more packets which came together
     {
-        packetList.append(packet); //we will separate them and put into list
+        Packet packet;
+        packetsLeft = packet.decode(&rxData);
+        if(packetsLeft)
+            packetList.append(packet); //we will separate them and put into list
     }
     foreach(Packet packet, packetList)
     {
@@ -71,17 +77,11 @@ void HMI_Client::onDataReceived()
                 }
                 else delete device;
             }
-//            else device = new RegulatorInterface()
-
-
-
-
 
         }
         
         if(packet.getPacketType()==Packet::DATA)
         {
-//            hmi->dataReceived(&packet);
             ScadaDevice* dev = findDevice(packet.getDeviceID());
             if(dev)
             {
@@ -118,6 +118,7 @@ void HMI_Client::sendWishlist()
 {
     socket->write(hmi->getSettingsPacket().encode());
 }
+
 
 void HMI_Client::switchDeviceState(DeviceInterface* device, bool state)
 {

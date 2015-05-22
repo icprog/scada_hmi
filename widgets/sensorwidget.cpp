@@ -65,6 +65,8 @@ void SensorWidget::plotSetup()
     plot->graph(0)->setAntialiasedFill(false);
 
     plot->yAxis->setLabel(device->getMeasurandName() + "[" + device->getMeasurandUnit() + "]");
+//    plot->yAxis->setRangeLower(device->getRangeMin());
+//    plot->yAxis->setRangeUpper(device->getRangeMax());
     plot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     plot->xAxis->setDateTimeFormat("hh:mm:ss");
     plot->xAxis->setAutoTickStep(false);
@@ -87,11 +89,10 @@ void SensorWidget::plotUpdate()
       double data = device->getCurrentValue();
       plot->graph(0)->addData(key, data);
 
+
       // remove data of lines that's outside visible range:
       plot->graph(0)->removeDataBefore(key-8);
-
-      // rescale value (vertical) axis to fit the current data:
-      plot->graph(0)->rescaleValueAxis();
+      plot->yAxis->rescale();
 
       lastPointKey = key;
     }
